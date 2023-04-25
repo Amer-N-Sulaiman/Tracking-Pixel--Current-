@@ -192,7 +192,6 @@ const CreatePixelCard = ()=>{
                             <CardActions>
                                 <Button size="large" onClick={()=>setStep(1)}>Done</Button>
                                 <Button size="large" onClick={() => {navigator.clipboard.writeText(document.getElementById("image-tag").innerText.replaceAll('\n', ''))}}>Copy To Clipboard</Button>
-                                
                             </CardActions>
     </>
 

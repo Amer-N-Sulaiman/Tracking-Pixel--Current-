@@ -3,9 +3,50 @@ import Grid from '@mui/material/Grid'
 import Link from 'next/Link'
 import Button from '@mui/material/Button'
 
-import CreatePixelCard from '../components/CreatePixelCard.js'
+import {useState, useEffect} from 'react'
+
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { setCookie, getCookie, hasCookie } from 'cookies-next';
 
 export default function Create(){
+
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
+    const [opensList, setOpensList] = useState(null)
+
+    useEffect(()=>{
+        if (!hasCookie('trackingId')){
+            return;
+        }
+        const localTempTrackingId = getCookie('trackingId')
+        const localTempPassword = getCookie('password')
+
+        const body = JSON.stringify({ 
+            "user_id": localTempTrackingId,
+            "password": localTempPassword 
+        })
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body
+        };
+        fetch("https://amersulaimantrackingpixel.pythonanywhere.com/opens", requestOptions).then((response)=>{
+            response.json().then((data)=>{
+                console.log(data)
+                if (data.e===undefined){
+                    setError(false)
+                } else {
+                    setError(true)
+                    setErrorMessage(data.e)
+                    return []
+                }
+                setOpensList(data)
+                return data
+            }, [])
+            
+        })
+    })
     return(
         <>
              <Head>
@@ -20,9 +61,18 @@ export default function Create(){
                         <h1 style={{textAlign: 'center'}}>Watch Your Email Opens</h1>
                     </Grid>
                     <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>    
-                        <CreatePixelCard />                   
+                        <TextField id="standard-basic" label="Tracking Id" variant="standard" style={{margin: '0 10px'}} />
+                        <TextField id="standard-basic" type="password" label="Password" variant="standard" style={{margin: '0 10px'}} /> 
                     </Grid>
+                    {hasCookie('trackingId') && opensList && <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>
+                        <h4>Showing Opens For the Following Tracking Id</h4>
+                        <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
+                        {opensList.map((open)=>{
+                            <p key={open[1]}>{open[0]} has opened your email at {open[1]}</p>
+                        })}
+                    </Grid>}
                 
+                    {}
                 </Grid>
             </main>
         </>
