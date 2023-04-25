@@ -6,6 +6,8 @@ import Button from '@mui/material/Button'
 import CreatePixelCard from '../components/CreatePixelCard.js'
 
 export default function Create(){
+    
+
     return(
         <>
              <Head>
