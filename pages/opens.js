@@ -11,9 +11,14 @@ import { setCookie, getCookie, hasCookie } from 'cookies-next';
 
 export default function Create(){
 
+    const [tempTrackingId, setTempTrackingId] = useState('')
+    const [tempPassword, setTempPassword] = useState('')
+
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('')
-    const [opensList, setOpensList] = useState(null)
+    const [wrongPassword, setWrongPassword] = useState(false)
+    const [noOpens, setNoOpens] = useState(false)
+    const [opensList, setOpensList] = useState([])
 
     useEffect(()=>{
         if (!hasCookie('trackingId')){
@@ -34,19 +39,61 @@ export default function Create(){
         fetch("https://amersulaimantrackingpixel.pythonanywhere.com/opens", requestOptions).then((response)=>{
             response.json().then((data)=>{
                 console.log(data)
-                if (data.e===undefined){
-                    setError(false)
-                } else {
-                    setError(true)
-                    setErrorMessage(data.e)
-                    return []
+                if (data.e==='wrong id or password'){
+                    setWrongPassword(true);
+                    return;
+                } else if (data.e==='no opens yet'){
+                    setNoOpens(true);
+                    return
                 }
-                setOpensList(data)
-                return data
-            }, [])
+                else {
+                    setOpensList(Object.values(data));
+                    setWrongPassword(false);
+                    setNoOpens(false);
+                }
+                
+            })
             
         })
-    })
+    }, []);
+
+
+    function submitCreds(){
+        const localTempTrackingId = tempTrackingId
+        const localTempPassword = tempPassword
+
+        const body = JSON.stringify({ 
+            "user_id": localTempTrackingId,
+            "password": localTempPassword 
+        })
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body
+        };
+        fetch("https://amersulaimantrackingpixel.pythonanywhere.com/opens", requestOptions).then((response)=>{
+            response.json().then((data)=>{
+                
+                if (data.e==='wrong id or password'){
+                    setWrongPassword(true);
+                    return;
+                } else if (data.e==='no opens yet'){
+                    setNoOpens(true);
+                }
+                else {
+                    setOpensList(Object.values(data));
+                    setWrongPassword(false);
+                    setNoOpens(false);
+                    console.log(Object.values(data))
+                }
+                setCookie('trackingId', localTempTrackingId)
+                setCookie('password', localTempPassword)
+                
+            })
+            
+        })
+    }
+
     return(
         <>
              <Head>
@@ -61,15 +108,17 @@ export default function Create(){
                         <h1 style={{textAlign: 'center'}}>Watch Your Email Opens</h1>
                     </Grid>
                     <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>    
-                        <TextField id="standard-basic" label="Tracking Id" variant="standard" style={{margin: '0 10px'}} />
-                        <TextField id="standard-basic" type="password" label="Password" variant="standard" style={{margin: '0 10px'}} /> 
+                        <TextField id="standard-basic" value={tempTrackingId} onChange={(e)=>setTempTrackingId(e.target.value)} label="Tracking Id" variant="standard" style={{margin: '0 15px'}} />
+                        <TextField id="standard-basic" value={tempPassword} onChange={(e)=>setTempPassword(e.target.value)} type="password" label="Password" variant="standard" style={{margin: '0 15px'}} /> 
                     </Grid>
-                    {hasCookie('trackingId') && opensList && <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>
+                    <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '10px'}}>    
+                        <Button size="large" onClick={submitCreds} style={{margin: '10px'}}>Submit</Button>
+                    </Grid>
+                    
+                    {hasCookie('trackingId') && opensList.length>0 && <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>
                         <h4>Showing Opens For the Following Tracking Id</h4>
                         <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
-                        {opensList.map((open)=>{
-                            <p key={open[1]}>{open[0]} has opened your email at {open[1]}</p>
-                        })}
+                        {opensList.map((open)=> <p key={open[1]}><b>{open[0]}</b> has opened your email at <b>{open[1]}</b></p>)}
                     </Grid>}
                 
                     {}
