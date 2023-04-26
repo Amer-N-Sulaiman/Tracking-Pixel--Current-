@@ -126,11 +126,12 @@ export default function Create(){
                         <Button size="large" onClick={submitCreds} style={{margin: '10px'}}>Submit</Button>
                     </Grid>
                     
-                    {hasCookie('trackingId') && opensList.length>0 && <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>
+                    {hasCookie('trackingId') && opensList.length>0 && <div><Grid item xs={10} sm={6} style={{textAlign: "center", margin: '0 auto', marginTop: '30px'}}>
                         <h4>Showing Opens For the Following Tracking Id</h4>
                         <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
+                        </Grid>
                         {opensList.map((open)=> {return(
-                            <Grid key={makeid(4)} item xs={12} md={6}>
+                            <Grid key={makeid(4)} item xs={12} md={12} style={{margin: '0 auto', textAlign: "center"}}>
                                 <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                                     <p key={open[1]}><b>{open[0]}</b> has opened your email at <b>{open[1]}</b></p>
                                 </Typography>
@@ -138,7 +139,7 @@ export default function Create(){
                         ) 
                         
                         })}
-                    </Grid>}
+                    </div>}
                 
                     {}
                 </Grid>
