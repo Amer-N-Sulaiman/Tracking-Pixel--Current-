@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Grid from '@mui/material/Grid'
-import Link from 'next/Link'
 import Button from '@mui/material/Button'
 
 import {useState, useEffect} from 'react'

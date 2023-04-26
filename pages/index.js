@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
-import Link from 'next/Link'
+import Link from 'next/link'
 
 
 export default function Home() {
