@@ -47,7 +47,7 @@ export default function Create(){
                     return
                 }
                 else {
-                    setOpensList(Object.values(data));
+                    setOpensList(Object.values(data).reverse());
                     setWrongPassword(false);
                     setNoOpens(false);
                 }
@@ -84,7 +84,7 @@ export default function Create(){
                     setOpensList(Object.values(data));
                     setWrongPassword(false);
                     setNoOpens(false);
-                    console.log(Object.values(data))
+                    console.log(Object.values(data).reverse())
                 }
                 setCookie('trackingId', localTempTrackingId)
                 setCookie('password', localTempPassword)
@@ -92,6 +92,18 @@ export default function Create(){
             })
             
         })
+    }
+
+    function makeid(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          counter += 1;
+        }
+        return result;
     }
 
     return(
@@ -118,7 +130,15 @@ export default function Create(){
                     {hasCookie('trackingId') && opensList.length>0 && <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>
                         <h4>Showing Opens For the Following Tracking Id</h4>
                         <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
-                        {opensList.map((open)=> <p key={open[1]}><b>{open[0]}</b> has opened your email at <b>{open[1]}</b></p>)}
+                        {opensList.map((open)=> {return(
+                            <Grid key={makeid(4)} item xs={12} md={6}>
+                                <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+                                    <p key={open[1]}><b>{open[0]}</b> has opened your email at <b>{open[1]}</b></p>
+                                </Typography>
+                            </Grid>
+                        ) 
+                        
+                        })}
                     </Grid>}
                 
                     {}
