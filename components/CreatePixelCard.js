@@ -48,6 +48,7 @@ const CreatePixelCard = ()=>{
                                     defaultValue={tempPassword}
                                     onChange={(e)=>setTempPassword(e.target.value)}
                                     placeholder="Enter Your Password"
+                                    type='password'
                                     variant="standard"
                                     style={{margin: '10px'}}
                                 />
