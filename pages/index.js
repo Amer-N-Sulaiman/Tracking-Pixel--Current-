@@ -20,7 +20,7 @@ export default function Home() {
       <main>
         <Grid container direction="column" style={{marginTop: '70px', alignContent: "center"}}>
           <Grid item xs={10} sm={6}>
-            <h1 style={{textAlign: 'center'}}>Ready to track your opens?</h1>
+            <h1 style={{textAlign: 'center'}}>Ready to track your email opens?</h1>
           </Grid>
           <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>    
             <Link href="/create"><Button variant="outlined" size="large">Create A New Tracking Pixel</Button></Link>

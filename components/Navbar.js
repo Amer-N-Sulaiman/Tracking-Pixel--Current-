@@ -29,9 +29,11 @@ function DrawerAppBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Tracking Pixel Creator
-      </Typography>
+      <Link href='/'>
+        <Typography variant="h6" sx={{ my: 2 }}>
+          Tracking Pixel Creator
+        </Typography>
+      </Link>
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -61,12 +63,16 @@ function DrawerAppBar(props) {
           >
             <MenuIcon />
           </IconButton>
+          
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Tracking Pixel Creator
+            <Link href='/'>
+              Tracking Pixel Creator
+            </Link>
+            
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
