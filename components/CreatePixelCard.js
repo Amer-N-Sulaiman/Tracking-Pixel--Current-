@@ -7,18 +7,13 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip';
 
 
-import { useState, useEffect } from 'react'
+import {useState} from 'react'
 
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
 
 const CreatePixelCard = ()=>{
-    
-    if (hasCookie('step')){
-        var stepTemp = getCookie('step')
-    } else{
-        var stepTemp = 1
-    }
-    const [step, setStep] = useState(stepTemp);
+
+    const [step, setStep] = useState(1);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('')
     const [wrongPassword, setWrongPassword] = useState(false)
@@ -29,11 +24,6 @@ const CreatePixelCard = ()=>{
     const [tempTrackingId, setTempTrackingId] = useState('')
     const [tempPassword, setTempPassword] = useState('')
     const [recipAddress, setRecipAddress] = useState('')
-
-    useEffect(()=>{
-        setCookie('step', step)
-        console.log(step)
-    }, [step])
 
     // check if there are cookies for trackingid then ask if to use it or another one in a separate step
     const step1Content = <>
