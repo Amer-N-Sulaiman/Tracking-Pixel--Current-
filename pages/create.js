@@ -17,7 +17,7 @@ export default function Create(){
 
             <main>
                 <Grid container direction="column" style={{marginTop: '70px', alignContent: "center"}}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={10} sm={6}>
                         <h1 style={{textAlign: 'center'}}>Create a new Tracking Pixel</h1>
                     </Grid>
                     <Grid item xs={10} sm={6} style={{textAlign: "center", marginTop: '30px'}}>    
