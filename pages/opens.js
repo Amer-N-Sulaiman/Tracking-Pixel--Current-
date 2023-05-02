@@ -142,8 +142,6 @@ export default function Create(){
                         })}
                     </div>}
                     {hasCookie('trackingId') && opensList.length===0 && <div><Grid item xs={10} sm={6} style={{textAlign: "center", margin: '0 auto', marginTop: '30px'}}>
-                    <h4>Showing Opens For the Following Tracking Id</h4>
-                        <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
                         <h4>Your Don&apos;t have any opens yet for the following tracking Id</h4>
                         <Typography sx={{fontSize: '14px'}} color="text.secondary">{getCookie('trackingId')}</Typography>
                         </Grid>
