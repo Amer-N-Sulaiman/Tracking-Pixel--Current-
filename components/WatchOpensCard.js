@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip';
+import { useRouter } from 'next/router';
 
 
 import {useState} from 'react'
@@ -12,6 +13,8 @@ import {useState} from 'react'
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
 
 const WatchOpensCard = ()=>{
+
+    const { push } = useRouter();
 
     const [step, setStep] = useState(1);
     const [error, setError] = useState(false);
@@ -58,9 +61,9 @@ const WatchOpensCard = ()=>{
                             </CardContent>
                             <CardActions>
                                 <Button size="large" onClick={submitCreds} style={{margin: '10px'}}>Submit</Button>
-                                <Button size="small" style={{margin: '10px'}} onClick={()=>setStep(2)}>Create New Tracking ID</Button>
+                                <Button size="small" style={{margin: '10px'}} onClick={()=>push('/create')}>Create New Tracking ID</Button>
                                 {hasCookie('trackingId') && <Tooltip title={getCookie('trackingId')}>
-                                        <Button size="large" onClick={()=>setStep(4)} style={{margin: '10px'}}>Use Saved ID</Button>
+                                        <Button size="large" onClick={()=>push('/opens')} style={{margin: '10px'}}>Use Saved ID</Button>
                                     </Tooltip>}
                             </CardActions>
                         </>
